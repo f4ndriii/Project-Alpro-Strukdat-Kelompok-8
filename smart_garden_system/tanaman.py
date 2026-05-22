@@ -1,3 +1,4 @@
+from file_io import simpan_data, load_data
 class Tanaman:
     # Membuat objek tanaman
     def __init__(self, nama, umur, tinggi):
@@ -64,6 +65,14 @@ def edit_tanaman():
         print("✏️ Data berhasil diupdate!")
     except:
         print("❌ Input tidak valid!")
+
+
+def init_data():
+    global data_tanaman
+    raw_data = load_data()
+
+    for nama, umur, tinggi in raw_data:
+        data_tanaman.append(Tanaman(nama, umur, tinggi))
 
 if __name__ == "__main__":
     t1 = Tanaman("Mawar", 3, 50)
