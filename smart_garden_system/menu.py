@@ -1,4 +1,7 @@
 from tanaman import (
+    tambah_jadwal,
+    proses_jadwal,
+    lihat_jadwal,
     undo,
     sort_umur,
     sort_tinggi,
@@ -20,6 +23,9 @@ def jalan_menu():
         print("6.Urutkan Berdasarkan Tinggi")
         print("7.Cari Tanaman")
         print("8. Undo")
+        print("9. Tambah Jadwal Penyiraman")
+        print("10. Proses Penyiraman    ")
+        print("11. Lihat Jadwal Penyiraman")
         print("0. Keluar")
 
         pilih = input("Pilih: ")
@@ -40,6 +46,12 @@ def jalan_menu():
             cari_tanaman()
         elif pilih == "8":
             undo()
+        elif pilih == "9":
+            tambah_jadwal()
+        elif pilih == "10":
+            proses_jadwal()
+        elif pilih == "11":
+            lihat_jadwal()
         elif pilih == "0":
             break
         else:
