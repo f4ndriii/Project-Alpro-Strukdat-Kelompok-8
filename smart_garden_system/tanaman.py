@@ -118,12 +118,12 @@ if __name__ == "__main__":
 #Sorting Tanaman Berdasarkan Umur
 def sort_umur():
     bubble_sort_umur(data_tanaman)
-    print("\n=== Tanaman diurutkan berdasarkan umur ===")
+    print("\n=== Tanaman berdasarkan umur ===")
 
 #Sorting Tanaman Berdasarkan Tinggi
 def sort_tinggi():
     bubble_sort_tinggi(data_tanaman)
-    print("\n=== Tanaman diurutkan berdasarkan tinggi ===")
+    print("\n=== Tanaman berdasarkan tinggi ===")
 
 #Mencari Tanaman Berdasarkan Nama
 def cari_tanaman():
