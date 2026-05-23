@@ -19,6 +19,9 @@ def tambah_tanaman():
     t = Tanaman(nama, umur, tinggi)
     data_tanaman.append(t)
 
+    # Menyimpan ke file txt
+    simpan_data(data_tanaman)
+
     print("✅ Tanaman berhasil ditambahkan!")
 
 # Fungsi untuk melihat daftar tanaman
@@ -42,6 +45,10 @@ def hapus_tanaman():
     try:
         index = int(input("Pilih index yang mau dihapus: "))
         data_tanaman.pop(index)
+
+        # Menyimpan kembali data tanaman setelah dihapus
+        simpan_data(data_tanaman)
+
         print("🗑️ Data berhasil dihapus!")
     except:
         print("❌ Input tidak valid!")
@@ -62,11 +69,14 @@ def edit_tanaman():
         t.umur = int(input("Umur baru: "))
         t.tinggi = int(input("Tinggi baru: "))
 
+        # Menyimpan kembali data tanaman setelah diedit
+        simpan_data(data_tanaman)
+
         print("✏️ Data berhasil diupdate!")
     except:
         print("❌ Input tidak valid!")
 
-
+# Memasukkan data dari file txt ke program
 def init_data():
     global data_tanaman
     raw_data = load_data()
