@@ -1,7 +1,4 @@
 from tanaman import (
-    tambah_jadwal,
-    proses_jadwal,
-    lihat_jadwal,
     undo,
     sort_umur,
     sort_tinggi,
@@ -10,6 +7,11 @@ from tanaman import (
     lihat_tanaman,
     hapus_tanaman,
     edit_tanaman
+)
+from jadwal import (
+    tambah_jadwal,
+    proses_jadwal,
+    lihat_jadwal
 )
 
 def jalan_menu():
