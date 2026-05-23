@@ -1,4 +1,5 @@
 from tanaman import (
+    undo,
     sort_umur,
     sort_tinggi,
     cari_tanaman,
@@ -18,6 +19,7 @@ def jalan_menu():
         print("5.Urutkan Berdasarkan Umur")
         print("6.Urutkan Berdasarkan Tinggi")
         print("7.Cari Tanaman")
+        print("8. Undo")
         print("0. Keluar")
 
         pilih = input("Pilih: ")
@@ -36,6 +38,8 @@ def jalan_menu():
             sort_tinggi()
         elif pilih == "7":
             cari_tanaman()
+        elif pilih == "8":
+            undo()
         elif pilih == "0":
             break
         else:

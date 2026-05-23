@@ -1,5 +1,7 @@
 from file_io import simpan_data, load_data
 from algoritma import bubble_sort_umur, bubble_sort_tinggi, cari_nama
+from struktur_data import Stack
+undo_stack = Stack()
 
 class Tanaman:
     # Membuat objek tanaman
@@ -20,6 +22,8 @@ def tambah_tanaman():
 
     t = Tanaman(nama, umur, tinggi)
     data_tanaman.append(t)
+
+    undo_stack.push (("tambah", t))  # Menyimpan aksi tambah ke stack untuk undo
 
     # Menyimpan ke file txt
     simpan_data(data_tanaman)
@@ -54,6 +58,10 @@ def hapus_tanaman():
         print("🗑️ Data berhasil dihapus!")
     except:
         print("❌ Input tidak valid!")
+
+    data = data_tanaman.pop(index)
+    undo_stack.push (("hapus", data, index))  # Menyimpan aksi hapus ke stack untuk undo
+
 
 # Fungsi edit tanaman
 def edit_tanaman():
@@ -124,4 +132,22 @@ def cari_tanaman():
         print(f"Tanaman ditemukan: {hasil.nama} | Umur: {hasil.umur} | Tinggi: {hasil.tinggi}")
     else:
         print("❌ Tanaman tidak ditemukan!")
+    
+# Fungsi undo
+def undo():
+    if undo_stack.data:
+        aksi = undo_stack.pop()
+
+        if aksi[0] == "tambah":
+            data_tanaman.pop(aksi[1])  # Menghapus tanaman yang baru ditambahkan
+            simpan_data(data_tanaman)  # Menyimpan perubahan ke file
+            print("🔄 Undo: Tambah tanaman dibatalkan!")
+        elif aksi[0] == "hapus":
+            data_tanaman.insert(aksi[2], aksi[1])  # Mengembalikan tanaman yang dihapus
+            simpan_data(data_tanaman)  # Menyimpan perubahan ke file
+            print("🔄 Undo: Hapus tanaman dibatalkan!")
+    else:
+        print("❌ Tidak ada aksi untuk di-undo!")
+
+
     
