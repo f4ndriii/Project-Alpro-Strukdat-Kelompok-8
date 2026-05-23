@@ -1,4 +1,6 @@
 from file_io import simpan_data, load_data
+from algoritma import bubble_sort_umur, bubble_sort_tinggi, cari_nama
+
 class Tanaman:
     # Membuat objek tanaman
     def __init__(self, nama, umur, tinggi):
@@ -102,3 +104,24 @@ if __name__ == "__main__":
     lihat_tanaman()
     edit_tanaman()
     lihat_tanaman()
+
+#Sorting Tanaman Berdasarkan Umur
+def sort_umur():
+    bubble_sort_umur(data_tanaman)
+    print("\n=== Tanaman diurutkan berdasarkan umur ===")
+
+#Sorting Tanaman Berdasarkan Tinggi
+def sort_tinggi():
+    bubble_sort_tinggi(data_tanaman)
+    print("\n=== Tanaman diurutkan berdasarkan tinggi ===")
+
+#Mencari Tanaman Berdasarkan Nama
+def cari_tanaman():
+    nama = input("Masukkan nama tanaman yang ingin dicari: ")
+    hasil = cari_nama(data_tanaman, nama)
+
+    if hasil:
+        print(f"Tanaman ditemukan: {hasil.nama} | Umur: {hasil.umur} | Tinggi: {hasil.tinggi}")
+    else:
+        print("❌ Tanaman tidak ditemukan!")
+    
