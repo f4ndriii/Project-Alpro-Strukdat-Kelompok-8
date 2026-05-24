@@ -89,9 +89,10 @@ def edit_tanaman():
 
 # Memasukkan data dari file txt ke program
 def init_data():
-    global data_tanaman
-    raw_data = load_data()
+    global data_tanaman #Memakai data_tanaman global
+    raw_data = load_data() #Mengambil data dari file
 
+    #Mengubah tuple menjadi objek tanaman
     for nama, umur, tinggi in raw_data:
         data_tanaman.append(Tanaman(nama, umur, tinggi))
 
