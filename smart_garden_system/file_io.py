@@ -1,6 +1,6 @@
 def simpan_data(data):
     #Membuka file tanaman.txt dalam mode write (menimpa isi file lama)
-    with open("data/tanaman.txt", "w") as f:
+    with open("tanaman.txt", "w") as f:
         for t in data:
             f.write(f"{t.nama},{t.umur},{t.tinggi}\n") #Menyimpan data dengan format nama,umur,tinggi
 

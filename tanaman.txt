@@ -1,0 +1,3 @@
+mawar,3,3
+melati,1,1
+edelweiss,2,7

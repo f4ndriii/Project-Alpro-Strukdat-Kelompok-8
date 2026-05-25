@@ -119,6 +119,7 @@ if __name__ == "__main__":
 def sort_umur():
     bubble_sort_umur(data_tanaman)
     print("\n=== Tanaman berdasarkan umur ===")
+    
 
 #Sorting Tanaman Berdasarkan Tinggi
 def sort_tinggi():
@@ -141,7 +142,7 @@ def undo():
         aksi = undo_stack.pop()
 
         if aksi[0] == "tambah":
-            data_tanaman.pop(aksi[1])  # Menghapus tanaman yang baru ditambahkan
+            data_tanaman.pop  # Menghapus tanaman yang baru ditambahkan
             simpan_data(data_tanaman)  # Menyimpan perubahan ke file
             print("🔄 Undo: Tambah tanaman dibatalkan!")
         elif aksi[0] == "hapus":

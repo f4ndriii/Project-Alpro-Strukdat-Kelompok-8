@@ -58,3 +58,6 @@ def jalan_menu():
             break
         else:
             print("❌ Pilihan tidak valid")
+
+
+jalan_menu()
