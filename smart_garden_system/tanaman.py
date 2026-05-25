@@ -3,6 +3,8 @@ from algoritma import bubble_sort_umur, bubble_sort_tinggi, cari_nama
 from struktur_data import Stack
 undo_stack = Stack()
 from struktur_data import Queue
+from riwayat import tambah_riwayat
+from struktur_data import TreeNode
 antrian = Queue()
 class Tanaman:
     # Membuat objek tanaman
@@ -24,10 +26,13 @@ def tambah_tanaman():
     t = Tanaman(nama, umur, tinggi)
     data_tanaman.append(t)
 
-    undo_stack.push (("tambah", t))  # Menyimpan aksi tambah ke stack untuk undo
-
     # Menyimpan ke file txt
     simpan_data(data_tanaman)
+
+    undo_stack.push (("tambah", t))  # Menyimpan aksi tambah ke stack untuk undo
+
+    #Tambah ke riwayat
+    tambah_riwayat(f"Menambah tanaman {nama}")
 
     print("✅ Tanaman berhasil ditambahkan!")
 
@@ -61,6 +66,7 @@ def hapus_tanaman():
         print("❌ Input tidak valid!")
 
     data = data_tanaman.pop(index)
+    simpan_data(data_tanaman)
     undo_stack.push (("hapus", data, index))  # Menyimpan aksi hapus ke stack untuk undo
 
 
@@ -155,4 +161,19 @@ def undo():
     else:
         print("❌ Tidak ada aksi untuk di-undo!")
 
+akar = TreeNode("Tanaman")
 
+hias = TreeNode("Hias")
+buah = TreeNode("Buah")
+
+akar.tambah_anak(hias)
+akar.tambah_anak(buah)
+
+hias.tambah_anak(TreeNode("Mawar"))
+hias.tambah_anak(TreeNode("Anggrek"))
+
+buah.tambah_anak(TreeNode("Mangga"))
+
+def tampil_kategori():
+    print("=== Kategori Tanaman ===")
+    akar.tampil()

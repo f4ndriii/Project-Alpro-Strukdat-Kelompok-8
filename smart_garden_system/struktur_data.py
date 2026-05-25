@@ -25,3 +25,46 @@ class Queue:
     def tampil(self):
         for item in self.data:
             print(item)
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def tambah(self, data):
+        node_baru = Node(data)
+        #Jika linked list kosong
+        if not self.head:
+            self.head = node_baru
+        #Jika sudah ada isi
+        else:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = node_baru
+
+    def tampil(self):
+        #Menampilkan seluruh isi linked list
+        current = self.head
+        while current:
+            print(current.data)
+            current = current.next
+
+class TreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+
+    def tambah_anak(self, node):
+        self.children.append(node)
+
+    def tampil(self, level=0):
+        #Menampilkan tree secara bertingkat
+        print("  " * level + self.data)
+        for child in self.children:
+            child.tampil(level + 1)

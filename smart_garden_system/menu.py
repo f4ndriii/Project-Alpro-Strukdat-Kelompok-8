@@ -6,7 +6,9 @@ from tanaman import (
     tambah_tanaman,
     lihat_tanaman,
     hapus_tanaman,
-    edit_tanaman
+    edit_tanaman,
+    lihat_riwayat,
+    tampil_kategori
 )
 from jadwal import (
     tambah_jadwal,
@@ -28,6 +30,8 @@ def jalan_menu():
         print("9. Tambah Jadwal Penyiraman")
         print("10. Proses Penyiraman    ")
         print("11. Lihat Jadwal Penyiraman")
+        print("12. Lihat Riwayat")
+        print("13. Lihat Kategori Tanaman")
         print("0. Keluar")
 
         pilih = input("Pilih: ")
@@ -54,6 +58,10 @@ def jalan_menu():
             proses_jadwal()
         elif pilih == "11":
             lihat_jadwal()
+        elif pilih == "12":
+            lihat_riwayat()
+        elif pilih == "13":
+            tampil_kategori()
         elif pilih == "0":
             break
         else:
