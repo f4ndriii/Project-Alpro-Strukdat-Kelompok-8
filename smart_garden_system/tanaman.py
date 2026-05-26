@@ -136,7 +136,11 @@ def sort_tinggi():
     
 #Mencari Tanaman Berdasarkan Nama
 def cari_tanaman():
-    nama = input("Masukkan nama tanaman yang ingin dicari: ")
+    if not data_tanaman:
+        print("\nData masih kosong!")
+        return
+
+    nama = input("\nMasukkan nama tanaman yang ingin dicari: ")
     hasil = cari_nama(data_tanaman, nama)
 
     if hasil:
