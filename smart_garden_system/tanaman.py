@@ -56,7 +56,7 @@ def hapus_tanaman():
 
     try:
         index = int(input("Pilih index yang mau dihapus: "))
-        data_tanaman.pop(index)
+        data = data_tanaman.pop(index)
 
         # Menyimpan kembali data tanaman setelah dihapus
         simpan_data(data_tanaman)
@@ -65,7 +65,6 @@ def hapus_tanaman():
     except:
         print("❌ Input tidak valid!")
 
-    data = data_tanaman.pop(index)
     simpan_data(data_tanaman)
     undo_stack.push (("hapus", data, index))  # Menyimpan aksi hapus ke stack untuk undo
 
