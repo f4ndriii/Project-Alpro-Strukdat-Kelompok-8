@@ -7,14 +7,16 @@ from tanaman import (
     lihat_tanaman,
     hapus_tanaman,
     edit_tanaman,
-    lihat_riwayat,
     tampil_kategori
 )
+
 from jadwal import (
     tambah_jadwal,
     proses_jadwal,
     lihat_jadwal
 )
+
+from riwayat import lihat_riwayat
 
 def jalan_menu():
     while True:
@@ -67,5 +69,5 @@ def jalan_menu():
         else:
             print("❌ Pilihan tidak valid")
 
-
-jalan_menu()
+if __name__ == "__main__":
+    jalan_menu()
