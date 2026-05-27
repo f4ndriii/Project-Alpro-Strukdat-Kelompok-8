@@ -44,8 +44,15 @@ def lihat_tanaman():
         print("Data masih kosong!")
         return
 
+    nama_terpanjang = max(len(t.nama) for t in data_tanaman)
+    lebar_kolom_nama = max(nama_terpanjang, 12)
+
+    print(f"{'No.':<3} | {'Nama Tanaman':<{lebar_kolom_nama}} | {'Umur (bulan)':<16} | {'Tinggi (cm)':<13}")
+    total_lebar_garis = 4 + 3 + lebar_kolom_nama + 3 + 16 + 3 + 13
+    print("-"*total_lebar_garis)
+
     for i, t in enumerate(data_tanaman):
-        print(f"{i}. {t.nama} | Umur: {t.umur} | Tinggi: {t.tinggi}")
+        print(f"{i+1:<3} | {t.nama:<{lebar_kolom_nama}} | {t.umur:<16} | {t.tinggi:<15}")
 
 # Fungsi hapus tanaman
 def hapus_tanaman():
@@ -55,7 +62,7 @@ def hapus_tanaman():
         return
 
     try:
-        index = int(input("Pilih index yang mau dihapus: "))
+        index = int(input("Pilih nomor tanaman yang mau dihapus: ")) - 1
         data = data_tanaman.pop(index)
 
         # Menyimpan kembali data tanaman setelah dihapus
@@ -77,7 +84,7 @@ def edit_tanaman():
         return
 
     try:
-        index = int(input("Pilih index yang mau diedit: "))
+        index = int(input("Pilih nomor tanaman yang mau diedit: ")) - 1
         t = data_tanaman[index]
 
         print("Masukkan data baru:")
