@@ -72,6 +72,8 @@ def hapus_tanaman():
 
         simpan_data(data_tanaman)
 
+        tambah_riwayat(f"Menghapus tanaman {data.nama}")
+
         undo_stack.push(("hapus", data, index))
 
         print("🗑️ Data berhasil dihapus!")
@@ -97,6 +99,8 @@ def edit_tanaman():
 
         # Menyimpan kembali data tanaman setelah diedit
         simpan_data(data_tanaman)
+
+        tambah_riwayat(f"Mengedit tanaman {t.nama}")
 
         print("✏️ Data berhasil diupdate!")
     except:
