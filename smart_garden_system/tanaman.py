@@ -165,7 +165,7 @@ def undo():
         aksi = undo_stack.pop()
 
         if aksi[0] == "tambah":
-            data_tanaman.pop  # Menghapus tanaman yang baru ditambahkan
+            data_tanaman.pop()  # Menghapus tanaman yang baru ditambahkan
             simpan_data(data_tanaman)  # Menyimpan perubahan ke file
             print("🔄 Undo: Tambah tanaman dibatalkan!")
         elif aksi[0] == "hapus":
