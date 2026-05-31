@@ -140,6 +140,8 @@ def sort_umur():
         return
 
     bubble_sort_umur(data_tanaman)
+    simpan_data(data_tanaman)
+    tambah_riwayat("Mengurutkan tanaman berdasarkan umur")
     print("\n=== Tanaman Berhasil Diurutkan Berdasarkan Umur ===")
     print("\n=== pilih opsi lihat tanaman untuk melihat hasilnya ===")
 
@@ -149,8 +151,10 @@ def sort_tinggi():
         return
 
     bubble_sort_tinggi(data_tanaman)
+    simpan_data(data_tanaman)
+    tambah_riwayat("Mengurutkan tanaman berdasarkan tinggi")
     print("\n=== Tanaman Berhasil Diurutkan Berdasarkan Tinggi ===")
-    print("\n=== pilih opsi lihat tanaman untuk melihat hasilnya ===")
+    print("=== pilih opsi lihat tanaman untuk melihat hasilnya ===")
 
 #Mencari Tanaman Berdasarkan Nama
 def cari_tanaman():
