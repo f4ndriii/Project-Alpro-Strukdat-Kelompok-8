@@ -1,0 +1,2 @@
+mawar,3,2
+melati,1,5
