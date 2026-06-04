@@ -1,2 +1,2 @@
-mawar,3,2
-melati,1,5
+mawar,1,40,hias
+mangga,2,120,buah
