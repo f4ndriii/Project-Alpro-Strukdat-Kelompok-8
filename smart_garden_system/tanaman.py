@@ -8,10 +8,11 @@ from struktur_data import TreeNode
 antrian = Queue()
 class Tanaman:
     # Membuat objek tanaman
-    def __init__(self, nama, umur, tinggi):
+    def __init__(self, nama, umur, tinggi, kategori):
         self.nama = nama
         self.umur = umur
         self.tinggi = tinggi
+        self.kategori = kategori
 
 data_tanaman = []
 
@@ -22,8 +23,9 @@ def tambah_tanaman():
     nama = input("Nama tanaman: ")
     umur = int(input("Umur (bulan): "))
     tinggi = int(input("Tinggi (cm): "))
+    kategori = input("Kategori (Hias/Buah/Sayur): ")
 
-    t = Tanaman(nama, umur, tinggi)
+    t = Tanaman(nama, umur, tinggi, kategori)
     data_tanaman.append(t)
 
     # Menyimpan ke file txt
@@ -47,12 +49,12 @@ def lihat_tanaman():
     nama_terpanjang = max(len(t.nama) for t in data_tanaman)
     lebar_kolom_nama = max(nama_terpanjang, 12)
 
-    print(f"{'No.':<3} | {'Nama Tanaman':<{lebar_kolom_nama}} | {'Umur (bulan)':<16} | {'Tinggi (cm)':<13}")
-    total_lebar_garis = 4 + 3 + lebar_kolom_nama + 3 + 16 + 3 + 13
+    print(f"{'No.':<3} | {'Nama Tanaman':<{lebar_kolom_nama}} | {'Umur (bulan)':<16} | {'Tinggi (cm)':<13} | {'Kategori':<10}")
+    total_lebar_garis = 4 + 3 + lebar_kolom_nama + 3 + 16 + 3 + 13 + 3 + 10
     print("-"*total_lebar_garis)
 
     for i, t in enumerate(data_tanaman):
-        print(f"{i+1:<3} | {t.nama:<{lebar_kolom_nama}} | {t.umur:<16} | {t.tinggi:<15}")
+        print(f"{i+1:<3} | {t.nama:<{lebar_kolom_nama}} | {t.umur:<16} | {t.tinggi:<15} | {t.kategori:<10}")
 
 # Fungsi hapus tanaman
 def hapus_tanaman():
@@ -96,6 +98,7 @@ def edit_tanaman():
         t.nama = input("Nama baru: ")
         t.umur = int(input("Umur baru: "))
         t.tinggi = int(input("Tinggi baru: "))
+        t.kategori = input("Kategori baru: ")
 
         # Menyimpan kembali data tanaman setelah diedit
         simpan_data(data_tanaman)
@@ -112,11 +115,11 @@ def init_data():
     raw_data = load_data() #Mengambil data dari file
 
     #Mengubah tuple menjadi objek tanaman
-    for nama, umur, tinggi in raw_data:
-        data_tanaman.append(Tanaman(nama, umur, tinggi))
+    for nama, umur, tinggi, kategori in raw_data:
+        data_tanaman.append(Tanaman(nama, umur, tinggi, kategori))
 
 if __name__ == "__main__":
-    t1 = Tanaman("Mawar", 3, 50)
+    t1 = Tanaman("Mawar", 3, 50, "Hias")
 
     print(t1.nama)
     print(t1.umur)
@@ -166,7 +169,7 @@ def cari_tanaman():
     hasil = cari_nama(data_tanaman, nama)
 
     if hasil:
-        print(f"Tanaman ditemukan: {hasil.nama} | Umur: {hasil.umur} | Tinggi: {hasil.tinggi}")
+        print(f"Tanaman ditemukan: {hasil.nama} | Umur: {hasil.umur} | Tinggi: {hasil.tinggi} | Kategori: {hasil.kategori}")
     else:
         print("❌ Tanaman tidak ditemukan!")
     
@@ -186,19 +189,35 @@ def undo():
     else:
         print("❌ Tidak ada aksi untuk di-undo!")
 
-akar = TreeNode("Tanaman")
 
-hias = TreeNode("Hias")
-buah = TreeNode("Buah")
+def bangun_tree():
+   
+    akar = TreeNode("Tanaman")
 
-akar.tambah_anak(hias)
-akar.tambah_anak(buah)
+    # Dictionary sementara untuk simpan node tiap kategori
+    # contoh: {"Hias": NodeTree("Hias"), "Buah": NodeTree("Buah")}
+    kategori_nodes = {}
 
-hias.tambah_anak(TreeNode("Mawar"))
-hias.tambah_anak(TreeNode("Anggrek"))
+    for t in data_tanaman:
+        # Kalau kategori belum ada di tree, buat node baru
+        if t.kategori not in kategori_nodes:
+            node_kategori = TreeNode(t.kategori)
+            akar.tambah_anak(node_kategori)
+            kategori_nodes[t.kategori] = node_kategori
 
-buah.tambah_anak(TreeNode("Mangga"))
+        # Tambahkan nama tanaman sebagai anak dari node kategorinya
+        node_tanaman = TreeNode(f"{t.nama} (umur:{t.umur}bln, tinggi:{t.tinggi}cm)")
+        kategori_nodes[t.kategori].tambah_anak(node_tanaman)
+
+    return akar
+
 
 def tampil_kategori():
-    print("=== Kategori Tanaman ===")
+    if not data_tanaman:
+        print("\n❌ Belum ada data tanaman!")
+        return
+
+    print("\n=== Kategori Tanaman ===")
+    akar = bangun_tree()   # bangun tree dari data terkini
     akar.tampil()
+
