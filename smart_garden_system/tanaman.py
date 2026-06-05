@@ -1,5 +1,5 @@
 from file_io import simpan_data, load_data
-from algoritma import bubble_sort_umur, bubble_sort_tinggi, cari_nama
+from algoritma import bubble_sort_umur, bubble_sort_tinggi, cari_nama, total_kebutuhan_air
 from struktur_data import Stack
 undo_stack = Stack()
 from struktur_data import Queue
@@ -8,11 +8,12 @@ from struktur_data import TreeNode
 antrian = Queue()
 class Tanaman:
     # Membuat objek tanaman
-    def __init__(self, nama, umur, tinggi, kategori):
+    def __init__(self, nama, umur, tinggi, kategori, kebutuhan_air):
         self.nama = nama
         self.umur = umur
         self.tinggi = tinggi
         self.kategori = kategori
+        self.kebutuhan_air = kebutuhan_air
 
 data_tanaman = []
 
@@ -24,8 +25,9 @@ def tambah_tanaman():
     umur = int(input("Umur (bulan): "))
     tinggi = int(input("Tinggi (cm): "))
     kategori = input("Kategori (Hias/Buah/Sayur): ")
+    kebutuhan_air = int(input("kebutuhan air(L): "))
 
-    t = Tanaman(nama, umur, tinggi, kategori)
+    t = Tanaman(nama, umur, tinggi, kategori, kebutuhan_air)
     data_tanaman.append(t)
 
     # Menyimpan ke file txt
@@ -49,12 +51,14 @@ def lihat_tanaman():
     nama_terpanjang = max(len(t.nama) for t in data_tanaman)
     lebar_kolom_nama = max(nama_terpanjang, 12)
 
-    print(f"{'No.':<3} | {'Nama Tanaman':<{lebar_kolom_nama}} | {'Umur (bulan)':<16} | {'Tinggi (cm)':<13} | {'Kategori':<10}")
-    total_lebar_garis = 4 + 3 + lebar_kolom_nama + 3 + 16 + 3 + 13 + 3 + 10
+    print(
+        f"{'No.':<3} | {'Nama Tanaman':<{lebar_kolom_nama}} | {'Umur (bulan)':<13} | {'Tinggi (cm)':<12} | {'Kategori':<9} | {'Kebutuhan Air':<13}")
+
+    total_lebar_garis = 4 + 3 + lebar_kolom_nama + 3 + 13 + 3 + 12 + 3 + 10 + 15
     print("-"*total_lebar_garis)
 
     for i, t in enumerate(data_tanaman):
-        print(f"{i+1:<3} | {t.nama:<{lebar_kolom_nama}} | {t.umur:<16} | {t.tinggi:<15} | {t.kategori:<10}")
+        print(f"{i+1:<3} | {t.nama:<{lebar_kolom_nama}} | {t.umur:<13} | {t.tinggi:<12} | {t.kategori:<9} | {t.kebutuhan_air:<13}")
 
 # Fungsi hapus tanaman
 def hapus_tanaman():
@@ -99,6 +103,7 @@ def edit_tanaman():
         t.umur = int(input("Umur baru: "))
         t.tinggi = int(input("Tinggi baru: "))
         t.kategori = input("Kategori baru: ")
+        t.kebutuhan_air = int(input("Kebutuhan air baru: "))
 
         # Menyimpan kembali data tanaman setelah diedit
         simpan_data(data_tanaman)
@@ -115,8 +120,8 @@ def init_data():
     raw_data = load_data() #Mengambil data dari file
 
     #Mengubah tuple menjadi objek tanaman
-    for nama, umur, tinggi, kategori in raw_data:
-        data_tanaman.append(Tanaman(nama, umur, tinggi, kategori))
+    for nama, umur, tinggi, kategori, kebutuhan_air in raw_data:
+        data_tanaman.append(Tanaman(nama, umur, tinggi, kategori, kebutuhan_air))
 
 if __name__ == "__main__":
     t1 = Tanaman("Mawar", 3, 50, "Hias")
@@ -169,7 +174,7 @@ def cari_tanaman():
     hasil = cari_nama(data_tanaman, nama)
 
     if hasil:
-        print(f"Tanaman ditemukan: {hasil.nama} | Umur: {hasil.umur} | Tinggi: {hasil.tinggi} | Kategori: {hasil.kategori}")
+        print(f"\nTanaman ditemukan:\n{hasil.nama} | Umur: {hasil.umur} | Tinggi: {hasil.tinggi} | Kategori: {hasil.kategori}")
     else:
         print("❌ Tanaman tidak ditemukan!")
     
@@ -191,7 +196,6 @@ def undo():
 
 
 def bangun_tree():
-   
     akar = TreeNode("Tanaman")
 
     # Dictionary sementara untuk simpan node tiap kategori
@@ -221,3 +225,6 @@ def tampil_kategori():
     akar = bangun_tree()   # bangun tree dari data terkini
     akar.tampil()
 
+def lihat_total_air():
+    total = total_kebutuhan_air(data_tanaman)
+    print(f"\nTotal kebutuhan air {total} liter")

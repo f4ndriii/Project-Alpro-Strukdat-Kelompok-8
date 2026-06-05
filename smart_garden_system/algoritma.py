@@ -19,3 +19,9 @@ def cari_nama(data, nama):
         if item.nama.lower() == nama.lower():
             return item
     return None
+
+def total_kebutuhan_air(data, index=0):
+    if index == len(data):
+        return 0
+    # Melakukan rekursi untuk menghitung total kebutuhan air
+    return data[index].kebutuhan_air + total_kebutuhan_air(data, index+1)
