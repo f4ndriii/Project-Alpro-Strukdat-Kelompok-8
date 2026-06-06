@@ -1,2 +1,0 @@
-mawar,1,40,hias
-mangga,2,120,buah

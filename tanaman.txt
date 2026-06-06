@@ -1,3 +1,0 @@
-mawar,3,5
-melati,2,9
-pisang,3,10

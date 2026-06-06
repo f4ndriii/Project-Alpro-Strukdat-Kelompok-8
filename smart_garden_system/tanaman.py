@@ -38,7 +38,7 @@ def tambah_tanaman():
     #Tambah ke riwayat
     tambah_riwayat(f"Menambah tanaman {nama}")
 
-    print("✅ Tanaman berhasil ditambahkan!")
+    print("Tanaman berhasil ditambahkan!")
 
 # Fungsi untuk melihat daftar tanaman
 def lihat_tanaman():
@@ -71,7 +71,7 @@ def hapus_tanaman():
         index = int(input("Pilih nomor tanaman yang mau dihapus: ")) - 1
 
         if index < 0 or index >= len(data_tanaman):
-            print("❌ Nomor tanaman tidak tersedia!")
+            print("Nomor tanaman tidak tersedia!")
             return
 
         data = data_tanaman.pop(index)
@@ -82,10 +82,10 @@ def hapus_tanaman():
 
         undo_stack.push(("hapus", data, index))
 
-        print("🗑️ Data berhasil dihapus!")
+        print("Data berhasil dihapus!")
 
     except ValueError:
-        print("❌ Masukkan angka!")
+        print("Masukkan angka!")
 
 # Fungsi edit tanaman
 def edit_tanaman():
@@ -96,23 +96,28 @@ def edit_tanaman():
 
     try:
         index = int(input("Pilih nomor tanaman yang mau diedit: ")) - 1
+
+        if index < 0 or index >= len(data_tanaman):
+            print("Nomor tanaman tidak tersedia!")
+            return
+
         t = data_tanaman[index]
 
-        print("Masukkan data baru:")
+        print("\n=== Edit Tanaman ===")
         t.nama = input("Nama baru: ")
-        t.umur = int(input("Umur baru: "))
-        t.tinggi = int(input("Tinggi baru: "))
-        t.kategori = input("Kategori baru: ")
-        t.kebutuhan_air = int(input("Kebutuhan air baru: "))
+        t.umur = int(input("Umur baru (bulan): "))
+        t.tinggi = int(input("Tinggi baru (cm): "))
+        t.kategori = input("Kategori baru (Hias/Buah/Sayur): ")
+        t.kebutuhan_air = int(input("Kebutuhan air baru (L): "))
 
         # Menyimpan kembali data tanaman setelah diedit
         simpan_data(data_tanaman)
 
         tambah_riwayat(f"Mengedit tanaman {t.nama}")
 
-        print("✏️ Data berhasil diupdate!")
-    except:
-        print("❌ Input tidak valid!")
+        print("Data berhasil diupdate!")
+    except ValueError:
+        print("Masukkan angka yang valid!")
 
 # Memasukkan data dari file txt ke program
 def init_data():
@@ -122,25 +127,6 @@ def init_data():
     #Mengubah tuple menjadi objek tanaman
     for nama, umur, tinggi, kategori, kebutuhan_air in raw_data:
         data_tanaman.append(Tanaman(nama, umur, tinggi, kategori, kebutuhan_air))
-
-if __name__ == "__main__":
-    t1 = Tanaman("Mawar", 3, 50, "Hias")
-
-    print(t1.nama)
-    print(t1.umur)
-    print(t1.tinggi)
-
-    data_tanaman.append(t1)
-    print(data_tanaman[0].nama)
-    print(data_tanaman[0].umur)
-    print(data_tanaman[0].tinggi)
-
-    tambah_tanaman()
-    lihat_tanaman()
-    hapus_tanaman()
-    lihat_tanaman()
-    edit_tanaman()
-    lihat_tanaman()
 
 #Sorting Tanaman Berdasarkan Umur
 def sort_umur():
@@ -176,7 +162,7 @@ def cari_tanaman():
     if hasil:
         print(f"\nTanaman ditemukan:\n{hasil.nama} | Umur: {hasil.umur} | Tinggi: {hasil.tinggi} | Kategori: {hasil.kategori}")
     else:
-        print("❌ Tanaman tidak ditemukan!")
+        print("Tanaman tidak ditemukan!")
     
 # Fungsi undo
 def undo():
@@ -186,13 +172,13 @@ def undo():
         if aksi[0] == "tambah":
             data_tanaman.pop()  # Menghapus tanaman yang baru ditambahkan
             simpan_data(data_tanaman)  # Menyimpan perubahan ke file
-            print("🔄 Undo: Tambah tanaman dibatalkan!")
+            print("Undo: Tambah tanaman dibatalkan!")
         elif aksi[0] == "hapus":
             data_tanaman.insert(aksi[2], aksi[1])  # Mengembalikan tanaman yang dihapus
             simpan_data(data_tanaman)  # Menyimpan perubahan ke file
-            print("🔄 Undo: Hapus tanaman dibatalkan!")
+            print("Undo: Hapus tanaman dibatalkan!")
     else:
-        print("❌ Tidak ada aksi untuk di-undo!")
+        print("Tidak ada aksi untuk di-undo!")
 
 
 def bangun_tree():
@@ -218,7 +204,7 @@ def bangun_tree():
 
 def tampil_kategori():
     if not data_tanaman:
-        print("\n❌ Belum ada data tanaman!")
+        print("\nBelum ada data tanaman!")
         return
 
     print("\n=== Kategori Tanaman ===")
