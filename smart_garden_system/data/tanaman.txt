@@ -1,1 +1,6 @@
 KAKTUS MINI,2,5,Hias,2
+bayam,1,2,sayur,1
+MAWAR,2,1,hias,2
+MAWAR,1,2,HIAS,2
+Kangkung,2,1,sayur,2
+mangga,2,3,buah,3

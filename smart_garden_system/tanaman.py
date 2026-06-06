@@ -16,6 +16,7 @@ class Tanaman:
         self.kebutuhan_air = kebutuhan_air
 
 data_tanaman = []
+hash_tanaman = {} # Hash Table untuk pencarian cepat berdasarkan nama
 
 # Fungsi untuk menambahkan tanaman
 def tambah_tanaman():
@@ -29,6 +30,11 @@ def tambah_tanaman():
 
     t = Tanaman(nama, umur, tinggi, kategori, kebutuhan_air)
     data_tanaman.append(t)
+
+    key = t.nama.upper()
+    if key not in hash_tanaman:
+        hash_tanaman[key] = []
+    hash_tanaman[key].append(t)
 
     # Menyimpan ke file txt
     simpan_data(data_tanaman)
@@ -76,6 +82,11 @@ def hapus_tanaman():
 
         data = data_tanaman.pop(index)
 
+        key = data.nama.upper()
+        hash_tanaman[key].remove(data)
+        if len(hash_tanaman[key]) == 0:
+            del hash_tanaman[key]
+
         simpan_data(data_tanaman)
 
         tambah_riwayat(f"Menghapus tanaman {data.nama}")
@@ -103,12 +114,24 @@ def edit_tanaman():
 
         t = data_tanaman[index]
 
+        nama_lama = t.nama.upper()
+
         print("\n=== Edit Tanaman ===")
-        t.nama = input("Nama baru: ")
+        nama_baru = input("Nama baru: ")
         t.umur = int(input("Umur baru (bulan): "))
         t.tinggi = int(input("Tinggi baru (cm): "))
         t.kategori = input("Kategori baru (Hias/Buah/Sayur): ")
         t.kebutuhan_air = int(input("Kebutuhan air baru (L): "))
+
+        hash_tanaman[nama_lama].remove(t)
+        if len(hash_tanaman[nama_lama]) == 0:
+            del hash_tanaman[nama_lama]
+        
+        t.nama = nama_baru
+        key_baru = t.nama.upper()
+        if key_baru not in hash_tanaman:
+            hash_tanaman[key_baru] = []
+        hash_tanaman[key_baru].append(t)
 
         # Menyimpan kembali data tanaman setelah diedit
         simpan_data(data_tanaman)
@@ -116,6 +139,7 @@ def edit_tanaman():
         tambah_riwayat(f"Mengedit tanaman {t.nama}")
 
         print("Data berhasil diupdate!")
+
     except ValueError:
         print("Masukkan angka yang valid!")
 
@@ -124,9 +148,14 @@ def init_data():
     global data_tanaman #Memakai data_tanaman global
     raw_data = load_data() #Mengambil data dari file
 
-    #Mengubah tuple menjadi objek tanaman
     for nama, umur, tinggi, kategori, kebutuhan_air in raw_data:
-        data_tanaman.append(Tanaman(nama, umur, tinggi, kategori, kebutuhan_air))
+        t = Tanaman(nama,umur,tinggi,kategori,kebutuhan_air)
+        data_tanaman.append(t)
+        
+        key = t.nama.upper()
+        if key not in hash_tanaman:
+            hash_tanaman[key] = []
+        hash_tanaman[key].append(t)
 
 #Sorting Tanaman Berdasarkan Umur
 def sort_umur():
@@ -157,10 +186,15 @@ def cari_tanaman():
         return
 
     nama = input("\nMasukkan nama tanaman yang ingin dicari: ")
+    cek = hash_tanaman.get(nama.upper())
     hasil = cari_nama(data_tanaman, nama)
 
-    if hasil:
-        print(f"\nTanaman ditemukan:\n{hasil.nama} | Umur: {hasil.umur} | Tinggi: {hasil.tinggi} | Kategori: {hasil.kategori}")
+    if cek:
+        print(f"\nDitemukan {len(hasil)} tanaman:\n")
+        
+        for i, t in enumerate(hasil, start=1):
+            print(f"{i}. {t.nama} | Umur: {t.umur} | Tinggi: {t.tinggi} | Kategori: {t.kategori} | Kebutuhan Air: {t.kebutuhan_air}")
+    
     else:
         print("Tanaman tidak ditemukan!")
     
@@ -169,17 +203,35 @@ def undo():
     if undo_stack.data:
         aksi = undo_stack.pop()
 
+        # UNDO TAMBAH
         if aksi[0] == "tambah":
-            data_tanaman.pop()  # Menghapus tanaman yang baru ditambahkan
-            simpan_data(data_tanaman)  # Menyimpan perubahan ke file
-            print("Undo: Tambah tanaman dibatalkan!")
+            t = data_tanaman.pop()
+
+            key = t.nama.upper()
+
+            if key in hash_tanaman:
+                if t in hash_tanaman[key]:
+                    hash_tanaman[key].remove(t)
+
+                if len(hash_tanaman[key]) == 0:
+                    del hash_tanaman[key]
+
+        # UNDO HAPUS
         elif aksi[0] == "hapus":
-            data_tanaman.insert(aksi[2], aksi[1])  # Mengembalikan tanaman yang dihapus
-            simpan_data(data_tanaman)  # Menyimpan perubahan ke file
-            print("Undo: Hapus tanaman dibatalkan!")
+            t = aksi[1]
+            index = aksi[2]
+
+            data_tanaman.insert(index, t)
+
+            key = t.nama.upper()
+
+            if key not in hash_tanaman:
+                hash_tanaman[key] = []
+
+            hash_tanaman[key].append(t)
+            
     else:
         print("Tidak ada aksi untuk di-undo!")
-
 
 def bangun_tree():
     akar = TreeNode("Tanaman")
