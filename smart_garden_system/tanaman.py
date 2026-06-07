@@ -190,13 +190,16 @@ def cari_tanaman():
     hasil = cari_nama(data_tanaman, nama)
 
     if cek:
-        print(f"\nDitemukan {len(hasil)} tanaman:\n")
-        
-        for i, t in enumerate(hasil, start=1):
-            print(f"{i}. {t.nama} | Umur: {t.umur} | Tinggi: {t.tinggi} | Kategori: {t.kategori} | Kebutuhan Air: {t.kebutuhan_air}")
+        print("\n(Hasil dari Hash Table - Akses Cepat)")
     
-    else:
+    if len(hasil) == 0:
         print("Tanaman tidak ditemukan!")
+        return
+
+    print(f"Ditemukan {len(hasil)} data:")
+
+    for i, t in enumerate(hasil, 1):
+        print(f"{i}. {t.nama} | Umur:{t.umur} | Tinggi:{t.tinggi} | Kategori:{t.kategori} | Air:{t.kebutuhan_air}")
     
 # Fungsi undo
 def undo():
