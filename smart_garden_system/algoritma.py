@@ -14,13 +14,6 @@ def bubble_sort_tinggi(data):
                 data[j], data[j+1] = data[j+1], data[j]
     return data
 
-def cari_nama(data, nama):
-    hasil = []
-    for item in data:
-        if item.nama.lower() == nama.lower():
-            hasil.append(item)
-    return hasil
-
 def total_kebutuhan_air(data, index=0):
     if index == len(data):
         return 0

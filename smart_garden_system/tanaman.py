@@ -1,5 +1,5 @@
 from file_io import simpan_data, load_data
-from algoritma import bubble_sort_umur, bubble_sort_tinggi, cari_nama, total_kebutuhan_air
+from algoritma import bubble_sort_umur, bubble_sort_tinggi, total_kebutuhan_air
 from struktur_data import Stack
 undo_stack = Stack()
 from struktur_data import Queue
@@ -189,21 +189,16 @@ def cari_tanaman():
         return
 
     nama = input("\nMasukkan nama tanaman yang ingin dicari: ")
-    cek = hash_tanaman.get(nama.upper())
-    hasil = cari_nama(data_tanaman, nama)
 
-    if cek:
-        print("\n(Hasil dari Hash Table - Akses Cepat)")
-    
-    if len(hasil) == 0:
+    hasil = hash_tanaman.get(nama.upper(), [])  # Jika key tidak ditemukan: mengembalikan list kosong
+
+    if hasil:
+        print("\n(Hasil dari Hash Table - Akses Cepat)\n")
+        lihat_tanaman(hasil)
+
+    else:
         print("Tanaman tidak ditemukan!")
-        return
 
-    print(f"Ditemukan {len(hasil)} data:")
-
-    for i, t in enumerate(hasil, 1):
-        print(f"{i}. {t.nama} | Umur:{t.umur} | Tinggi:{t.tinggi} | Kategori:{t.kategori} | Air:{t.kebutuhan_air}")
-    
 # Fungsi undo
 def undo():
     if undo_stack.data:
