@@ -148,17 +148,26 @@ def edit_tanaman():
         t.umur = umur_baru
         t.tinggi = tinggi_baru
         t.kategori = kategori_baru
+        kategori_unik.discard(t.kategori)
         kategori_unik.add(kategori_baru)
         t.kebutuhan_air = kebutuhan_air_baru
 
-        hash_tanaman[nama_lama].remove(t)
-        if len(hash_tanaman[nama_lama]) == 0:
-            del hash_tanaman[nama_lama]
-        
+        # HAPUS dari hash lama dengan aman
+        if nama_lama in hash_tanaman:
+            if t in hash_tanaman[nama_lama]:
+                hash_tanaman[nama_lama].remove(t)
+
+            if len(hash_tanaman[nama_lama]) == 0:
+                del hash_tanaman[nama_lama]
+
+        # UPDATE DATA NAMA TANAMAN
         t.nama = nama_baru
         key_baru = t.nama.upper()
+
+        # MASUKKAN KE HASH BARU
         if key_baru not in hash_tanaman:
             hash_tanaman[key_baru] = []
+
         hash_tanaman[key_baru].append(t)
 
         # Menyimpan kembali data tanaman setelah diedit
@@ -217,7 +226,7 @@ def cari_tanaman():
         print("\nData masih kosong!")
         return
 
-    nama = input("\nMasukkan nama tanaman yang ingin dicari: ").strip()
+    nama = input("\nMasukkan nama tanaman yang ingin dicari: ").strip().upper()
     if nama == "":
         print("Nama tanaman tidak boleh kosong!")
         return
@@ -238,10 +247,11 @@ def undo():
 
         # UNDO TAMBAH
         if aksi[0] == "tambah":
-            t = data_tanaman.pop()
+            t = aksi[1]
+            if t in data_tanaman:
+                data_tanaman.remove(t)
 
             key = t.nama.upper()
-
             if key in hash_tanaman:
                 if t in hash_tanaman[key]:
                     hash_tanaman[key].remove(t)
@@ -254,14 +264,15 @@ def undo():
             t = aksi[1]
             index = aksi[2]
 
-            data_tanaman.insert(index, t)
+            if t not in data_tanaman:
+                data_tanaman.insert(index, t)
 
             key = t.nama.upper()
-
             if key not in hash_tanaman:
                 hash_tanaman[key] = []
 
             hash_tanaman[key].append(t)
+
         simpan_data(data_tanaman)
         tambah_riwayat("Undo aksi terakhir")
         print("Undo berhasil.")
@@ -321,7 +332,7 @@ def filter_kategori():
 
     temp = []
     for t in data_tanaman:
-        if t.kategori == pilih:
+        if t.kategori.strip().capitalize() == pilih:
             temp.append(t)
 
     if temp:

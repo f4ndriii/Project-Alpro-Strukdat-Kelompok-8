@@ -78,7 +78,7 @@ def jalan_menu():
         elif pilih == "0":
             break
         else:
-            print("❌ Pilihan tidak valid")
+            print("Pilihan tidak valid")
 
 if __name__ == "__main__":
     jalan_menu()
