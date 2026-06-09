@@ -1,15 +1,15 @@
 from struktur_data import Queue
-antrian = Queue()
+antrian = Queue()  # Queue digunakan untuk menyimpan antrean jadwal penyiraman (FIFO)
 from tanaman import data_tanaman
 
-#Menambahkan Jadwal Penyiraman
+#Menambahkan Jadwal Penyiraman 
 def tambah_jadwal():
     nama = input("Masukkan nama tanaman : ").strip()
     if nama == "":
         print("Nama tidak boleh kosong!")
         return
 
-    # CEK TANAMAN VALID
+    # Memastikan nama tanaman sudah ada
     ditemukan = False
     for t in data_tanaman:
         if t.nama.upper() == nama.upper():
@@ -44,7 +44,8 @@ def tambah_jadwal():
     if jam < 0 or jam > 23 or menit < 0 or menit > 59:
         print("Waktu tidak valid!")
         return
-
+        
+    # Jadwal dimasukkan ke antrean penyiraman
     antrian.enqueue((nama, waktu))
     print(f"Jadwal penyiraman untuk {nama} pada {waktu} berhasil ditambahkan!")
 

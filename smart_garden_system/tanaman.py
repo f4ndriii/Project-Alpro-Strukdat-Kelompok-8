@@ -5,6 +5,7 @@ undo_stack = Stack()
 from riwayat import tambah_riwayat
 from struktur_data import TreeNode
 
+#Class yang merepresentasikan data sebuah tanaman
 class Tanaman:
     # Membuat objek tanaman
     def __init__(self, nama, umur, tinggi, kategori, kebutuhan_air):
@@ -14,9 +15,9 @@ class Tanaman:
         self.kategori = kategori
         self.kebutuhan_air = kebutuhan_air
 
-data_tanaman = []
-hash_tanaman = {} # Hash Table untuk pencarian cepat berdasarkan nama
-kategori_unik = set()
+data_tanaman = []       #Menyimpan seluruh objek tanaman   
+hash_tanaman = {}       #Hash Table untuk pencarian tanaman berdasarkan nama
+kategori_unik = set()   ## Set digunakan agar kategori tanaman tidak duplikat
 
 # Fungsi untuk menambahkan tanaman
 def tambah_tanaman():
@@ -38,13 +39,14 @@ def tambah_tanaman():
         print("Kategori hanya boleh Hias, Buah, atau Sayur!")
         return
 
-    t = Tanaman(nama, umur, tinggi, kategori, kebutuhan_air)
+    t = Tanaman(nama, umur, tinggi, kategori, kebutuhan_air)    # Membuat objek tanaman baru
     data_tanaman.append(t)
     kategori_unik.add(kategori)
 
     key = t.nama.upper()
     if key not in hash_tanaman:
         hash_tanaman[key] = []
+    # Menyimpan objek ke Hash Table berdasarkan nama tanaman
     hash_tanaman[key].append(t)
 
     # Menyimpan ke file txt
@@ -64,7 +66,7 @@ def lihat_tanaman(data=data_tanaman):
     if not data:
         print("Data masih kosong!")
         return
-
+    # Menampilkan data tanaman dalam bentuk tabel
     nama_terpanjang = max(len(t.nama) for t in data)
     lebar_kolom_nama = max(nama_terpanjang, 12)
 
@@ -77,7 +79,7 @@ def lihat_tanaman(data=data_tanaman):
     for i, t in enumerate(data):
         print(f"{i+1:<3} | {t.nama:<{lebar_kolom_nama}} | {t.umur:<13} | {t.tinggi:<12} | {t.kategori:<9} | {t.kebutuhan_air:<13}")
 
-# Fungsi hapus tanaman
+# Fungsi hapus tanaman berdasarkan nomor
 def hapus_tanaman():
     lihat_tanaman()
 
@@ -93,6 +95,7 @@ def hapus_tanaman():
 
         data = data_tanaman.pop(index)
 
+        # Menghapus data dari Hash Table
         key = data.nama.upper()
         hash_tanaman[key].remove(data)
         if len(hash_tanaman[key]) == 0:
@@ -240,7 +243,7 @@ def cari_tanaman():
     else:
         print("Tanaman tidak ditemukan!")
 
-# Fungsi undo
+## Membatalkan aksi tambah atau hapus terakhir menggunakan Stack
 def undo():
     if undo_stack.data:
         aksi = undo_stack.pop()
@@ -280,6 +283,7 @@ def undo():
     else:
         print("Tidak ada aksi untuk di-undo!")
 
+# Membangun struktur Tree berdasarkan kategori tanaman
 def bangun_tree():
     akar = TreeNode("Tanaman")
 
@@ -300,7 +304,7 @@ def bangun_tree():
 
     return akar
 
-
+# Menampilkan struktur kategori tanaman dalam bentuk Tree
 def tampil_kategori():
     if not data_tanaman:
         print("\nBelum ada data tanaman!")
@@ -310,6 +314,7 @@ def tampil_kategori():
     akar = bangun_tree()   # bangun tree dari data terkini
     akar.tampil()
 
+# Menampilkan total kebutuhan air menggunakan fungsi rekursif
 def lihat_total_air():
     total = total_kebutuhan_air(data_tanaman)
     print(f"\nTotal kebutuhan air {total} liter")

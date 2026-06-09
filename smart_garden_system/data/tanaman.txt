@@ -1,3 +1,0 @@
-melati,2,3,Hias,1
-melati,2,3,Hias,4
-bayam,2,3,Sayur,1

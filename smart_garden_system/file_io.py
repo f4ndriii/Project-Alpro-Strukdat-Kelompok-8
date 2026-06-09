@@ -1,6 +1,6 @@
-# Fungsi untuk menyimpan data tanaman ke file
+# Fungsi untuk menyimpan data tanaman ke file tanaman.txt
 def simpan_data(data):
-    with open("data/tanaman.txt", "w") as f:
+    with open("data/tanaman.txt", "w") as f: # File akan ditimpa agar isinya selalu sesuai dengan data terbaru
         for t in data:
             f.write(f"{t.nama},{t.umur},{t.tinggi},{t.kategori},{t.kebutuhan_air}\n")
 

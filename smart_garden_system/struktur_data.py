@@ -1,3 +1,4 @@
+# Implementasi Stack untuk fitur Undo (LIFO)
 class Stack:
     def __init__(self):
         self.data = []
@@ -9,7 +10,8 @@ class Stack:
         if self.data:
             return self.data.pop()
         return None
-    
+
+# Implementasi Queue untuk antrean jadwal penyiraman (FIFO)    
 class Queue:
     def __init__(self):
         self.data = []
@@ -31,7 +33,7 @@ class Node:
         self.data = data
         self.next = None
 
-
+# Single Linked List untuk menyimpan riwayat aktivitas
 class LinkedList:
     def __init__(self):
         self.head = None
@@ -55,6 +57,7 @@ class LinkedList:
             print(current.data)
             current = current.next
 
+#Tree untuk mengelompokkan tanaman berdasarkan kategori
 class TreeNode:
     def __init__(self, data):
         self.data = data
