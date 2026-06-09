@@ -1,8 +1,10 @@
+# Fungsi untuk menyimpan data tanaman ke file
 def simpan_data(data):
     with open("data/tanaman.txt", "w") as f:
         for t in data:
             f.write(f"{t.nama},{t.umur},{t.tinggi},{t.kategori},{t.kebutuhan_air}\n")
 
+# Fungsi untuk memuat data tanaman dari file
 def load_data():
     data = []
     try:
