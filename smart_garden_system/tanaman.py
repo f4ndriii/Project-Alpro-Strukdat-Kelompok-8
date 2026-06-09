@@ -17,6 +17,7 @@ class Tanaman:
 
 data_tanaman = []
 hash_tanaman = {} # Hash Table untuk pencarian cepat berdasarkan nama
+kategori_unik = set()
 
 # Fungsi untuk menambahkan tanaman
 def tambah_tanaman():
@@ -30,6 +31,7 @@ def tambah_tanaman():
 
     t = Tanaman(nama, umur, tinggi, kategori, kebutuhan_air)
     data_tanaman.append(t)
+    kategori_unik.add(kategori)
 
     key = t.nama.upper()
     if key not in hash_tanaman:
@@ -47,14 +49,14 @@ def tambah_tanaman():
     print("Tanaman berhasil ditambahkan!")
 
 # Fungsi untuk melihat daftar tanaman
-def lihat_tanaman():
+def lihat_tanaman(data=data_tanaman):
     print("\n=== Data Tanaman ===")
 
-    if not data_tanaman:
+    if not data:
         print("Data masih kosong!")
         return
 
-    nama_terpanjang = max(len(t.nama) for t in data_tanaman)
+    nama_terpanjang = max(len(t.nama) for t in data)
     lebar_kolom_nama = max(nama_terpanjang, 12)
 
     print(
@@ -63,7 +65,7 @@ def lihat_tanaman():
     total_lebar_garis = 4 + 3 + lebar_kolom_nama + 3 + 13 + 3 + 12 + 3 + 10 + 15
     print("-"*total_lebar_garis)
 
-    for i, t in enumerate(data_tanaman):
+    for i, t in enumerate(data):
         print(f"{i+1:<3} | {t.nama:<{lebar_kolom_nama}} | {t.umur:<13} | {t.tinggi:<12} | {t.kategori:<9} | {t.kebutuhan_air:<13}")
 
 # Fungsi hapus tanaman
@@ -151,6 +153,7 @@ def init_data():
     for nama, umur, tinggi, kategori, kebutuhan_air in raw_data:
         t = Tanaman(nama,umur,tinggi,kategori,kebutuhan_air)
         data_tanaman.append(t)
+        kategori_unik.add(kategori)
         
         key = t.nama.upper()
         if key not in hash_tanaman:
@@ -269,3 +272,30 @@ def tampil_kategori():
 def lihat_total_air():
     total = total_kebutuhan_air(data_tanaman)
     print(f"\nTotal kebutuhan air {total} liter")
+
+# Menampilkan daftar kategori
+def tampilkan_daftar_kategori():
+    print("\n--Daftar kategori--\n")
+
+    for k in list(kategori_unik):
+        print(f">{k}")
+
+# Filter per kategori
+def filter_kategori():
+    if not data_tanaman:
+        print("Data masih kosong!")
+        return
+
+    tampilkan_daftar_kategori()
+    pilih = input("\nPilih kategori (ketik): ").lower()
+
+    temp = []
+    for t in data_tanaman:
+        if t.kategori == pilih:
+            temp.append(t)
+
+    if temp:
+        lihat_tanaman(temp)
+
+    else:
+        print(f"\nTidak ada tanaman dengan kategori {pilih}")

@@ -8,7 +8,8 @@ from tanaman import (
     hapus_tanaman,
     edit_tanaman,
     tampil_kategori,
-    lihat_total_air
+    lihat_total_air,
+    filter_kategori
 )
 
 from jadwal import (
@@ -39,6 +40,7 @@ def jalan_menu():
         print("12. Lihat Riwayat")
         print("13. Lihat Kategori Tanaman")
         print("14. Total kebutuhan air")
+        print("15. Filter Berdasarkan Kategori")
         print("0. Keluar")
 
         pilih = input("Pilih: ")
@@ -71,6 +73,8 @@ def jalan_menu():
             tampil_kategori()
         elif pilih == "14":
             lihat_total_air()
+        elif pilih == "15":
+            filter_kategori()
         elif pilih == "0":
             break
         else:
