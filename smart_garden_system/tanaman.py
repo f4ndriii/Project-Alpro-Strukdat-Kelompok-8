@@ -2,10 +2,9 @@ from file_io import simpan_data, load_data
 from algoritma import bubble_sort_umur, bubble_sort_tinggi, total_kebutuhan_air
 from struktur_data import Stack
 undo_stack = Stack()
-from struktur_data import Queue
 from riwayat import tambah_riwayat
 from struktur_data import TreeNode
-antrian = Queue()
+
 class Tanaman:
     # Membuat objek tanaman
     def __init__(self, nama, umur, tinggi, kategori, kebutuhan_air):
@@ -23,11 +22,21 @@ kategori_unik = set()
 def tambah_tanaman():
     print("\n=== Tambah Tanaman ===")
     
-    nama = input("Nama tanaman: ")
-    umur = int(input("Umur (bulan): "))
-    tinggi = int(input("Tinggi (cm): "))
-    kategori = input("Kategori (Hias/Buah/Sayur): ")
-    kebutuhan_air = int(input("kebutuhan air(L): "))
+    nama = input("Nama tanaman: ").strip()
+    if nama == "":
+        print("Nama tanaman tidak boleh kosong!")
+        return
+    try:
+        umur = int(input("Umur (bulan): "))
+        tinggi = int(input("Tinggi (cm): "))
+        kebutuhan_air = int(input("Kebutuhan air (L): "))
+    except ValueError:
+        print("Input umur, tinggi, dan kebutuhan air harus berupa angka!")
+        return
+    kategori = input("Kategori (Hias/Buah/Sayur): ").strip().capitalize()
+    if kategori not in ["Hias","Buah","Sayur"]:
+        print("Kategori hanya boleh Hias, Buah, atau Sayur!")
+        return
 
     t = Tanaman(nama, umur, tinggi, kategori, kebutuhan_air)
     data_tanaman.append(t)
@@ -119,11 +128,28 @@ def edit_tanaman():
         nama_lama = t.nama.upper()
 
         print("\n=== Edit Tanaman ===")
-        nama_baru = input("Nama baru: ")
-        t.umur = int(input("Umur baru (bulan): "))
-        t.tinggi = int(input("Tinggi baru (cm): "))
-        t.kategori = input("Kategori baru (Hias/Buah/Sayur): ")
-        t.kebutuhan_air = int(input("Kebutuhan air baru (L): "))
+        nama_baru = input("Nama baru: ").strip()
+        if nama_baru == "":
+            print("Nama tanaman tidak boleh kosong!")
+            return
+        try:
+            umur_baru = int(input("Umur baru (bulan): "))
+            tinggi_baru = int(input("Tinggi baru (cm): "))
+            kebutuhan_air_baru = int(input("Kebutuhan air baru (L): "))
+        except ValueError:
+            print("Input umur, tinggi, dan kebutuhan air harus berupa angka!")
+            return
+        kategori_baru = input("Kategori baru (Hias/Buah/Sayur): ").strip().capitalize()
+
+        if kategori_baru not in ["Hias", "Buah", "Sayur"]:
+            print("Kategori hanya boleh Hias, Buah, atau Sayur!")
+            return
+        
+        t.umur = umur_baru
+        t.tinggi = tinggi_baru
+        t.kategori = kategori_baru
+        kategori_unik.add(kategori_baru)
+        t.kebutuhan_air = kebutuhan_air_baru
 
         hash_tanaman[nama_lama].remove(t)
         if len(hash_tanaman[nama_lama]) == 0:
@@ -148,6 +174,9 @@ def edit_tanaman():
 # Memasukkan data dari file txt ke program
 def init_data():
     global data_tanaman #Memakai data_tanaman global
+    data_tanaman.clear()
+    hash_tanaman.clear()
+    kategori_unik.clear()
     raw_data = load_data() #Mengambil data dari file
 
     for nama, umur, tinggi, kategori, kebutuhan_air in raw_data:
@@ -188,7 +217,10 @@ def cari_tanaman():
         print("\nData masih kosong!")
         return
 
-    nama = input("\nMasukkan nama tanaman yang ingin dicari: ")
+    nama = input("\nMasukkan nama tanaman yang ingin dicari: ").strip()
+    if nama == "":
+        print("Nama tanaman tidak boleh kosong!")
+        return
 
     hasil = hash_tanaman.get(nama.upper(), [])  # Jika key tidak ditemukan: mengembalikan list kosong
 
@@ -230,7 +262,10 @@ def undo():
                 hash_tanaman[key] = []
 
             hash_tanaman[key].append(t)
-            
+        simpan_data(data_tanaman)
+        tambah_riwayat("Undo aksi terakhir")
+        print("Undo berhasil.")
+
     else:
         print("Tidak ada aksi untuk di-undo!")
 
@@ -282,7 +317,7 @@ def filter_kategori():
         return
 
     tampilkan_daftar_kategori()
-    pilih = input("\nPilih kategori (ketik): ").lower()
+    pilih = input("\nPilih kategori (ketik): ").strip().capitalize()
 
     temp = []
     for t in data_tanaman:
