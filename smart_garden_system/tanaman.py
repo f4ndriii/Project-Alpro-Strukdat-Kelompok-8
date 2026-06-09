@@ -24,16 +24,20 @@ def tambah_tanaman():
     print("\n=== Tambah Tanaman ===")
     
     nama = input("Nama tanaman: ").strip()
+
     if nama == "":
         print("Nama tanaman tidak boleh kosong!")
         return
+
     try:
         umur = int(input("Umur (bulan): "))
         tinggi = int(input("Tinggi (cm): "))
         kebutuhan_air = int(input("Kebutuhan air (L): "))
+
     except ValueError:
         print("Input umur, tinggi, dan kebutuhan air harus berupa angka!")
         return
+
     kategori = input("Kategori (Hias/Buah/Sayur): ").strip().capitalize()
     if kategori not in ["Hias","Buah","Sayur"]:
         print("Kategori hanya boleh Hias, Buah, atau Sayur!")
@@ -128,20 +132,34 @@ def edit_tanaman():
 
         t = data_tanaman[index]
 
+        undo_stack.push((
+            "edit",
+            t,
+            t.nama,
+            t.umur,
+            t.tinggi,
+            t.kategori,
+            t.kebutuhan_air
+        ))
+
         nama_lama = t.nama.upper()
 
         print("\n=== Edit Tanaman ===")
         nama_baru = input("Nama baru: ").strip()
+
         if nama_baru == "":
             print("Nama tanaman tidak boleh kosong!")
             return
+
         try:
             umur_baru = int(input("Umur baru (bulan): "))
             tinggi_baru = int(input("Tinggi baru (cm): "))
             kebutuhan_air_baru = int(input("Kebutuhan air baru (L): "))
+
         except ValueError:
             print("Input umur, tinggi, dan kebutuhan air harus berupa angka!")
             return
+
         kategori_baru = input("Kategori baru (Hias/Buah/Sayur): ").strip().capitalize()
 
         if kategori_baru not in ["Hias", "Buah", "Sayur"]:
@@ -276,9 +294,38 @@ def undo():
 
             hash_tanaman[key].append(t)
 
+        # UNDO EDIT
+        elif aksi[0] == "edit":
+            t = aksi[1]
+
+            nama_sekarang = t.nama.upper()
+
+            if nama_sekarang in hash_tanaman:
+                hash_tanaman[nama_sekarang].remove()
+
+                if t in hash_tanaman[nama_sekarang]:
+                    hash_tanaman[nama_sekarang].remove(t)
+
+                if len(hash_tanaman[nama_sekarang]) == 0:
+                    del hash_tanaman[nama_sekarang]
+
+            # Kembalikan data lama
+            t.nama = aksi[2]
+            t.umur = aksi[3]
+            t.tinggi = aksi[4]
+            t.kategori = aksi[5]
+            t.kebutuhan_air = aksi[6]
+
+            key_lama = t.nama.upper()
+
+            if key_lama not in hash_tanaman:
+                hash_tanaman[key_lama] = []
+
+            hash_tanaman[key_lama]
+
         simpan_data(data_tanaman)
         tambah_riwayat("Undo aksi terakhir")
-        print("Undo berhasil.")
+        print(f"Undo {aksi[0]} berhasil.")
 
     else:
         print("Tidak ada aksi untuk di-undo!")
