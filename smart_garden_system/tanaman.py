@@ -91,7 +91,7 @@ def hapus_tanaman():
         return
 
     try:
-        index = int(input("Pilih nomor tanaman yang mau dihapus: ")) - 1
+        index = int(input("\nPilih nomor tanaman yang mau dihapus: ")) - 1
 
         if index < 0 or index >= len(data_tanaman):
             print("Nomor tanaman tidak tersedia!")
@@ -124,7 +124,7 @@ def edit_tanaman():
         return
 
     try:
-        index = int(input("Pilih nomor tanaman yang mau diedit: ")) - 1
+        index = int(input("\nPilih nomor tanaman yang mau diedit: ")) - 1
 
         if index < 0 or index >= len(data_tanaman):
             print("Nomor tanaman tidak tersedia!")
