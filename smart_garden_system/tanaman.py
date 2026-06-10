@@ -301,7 +301,7 @@ def undo():
             nama_sekarang = t.nama.upper()
 
             if nama_sekarang in hash_tanaman:
-                hash_tanaman[nama_sekarang].remove()
+                hash_tanaman[nama_sekarang].remove(t)
 
                 if t in hash_tanaman[nama_sekarang]:
                     hash_tanaman[nama_sekarang].remove(t)
@@ -321,7 +321,7 @@ def undo():
             if key_lama not in hash_tanaman:
                 hash_tanaman[key_lama] = []
 
-            hash_tanaman[key_lama]
+            hash_tanaman[key_lama].append(t)
 
         simpan_data(data_tanaman)
         tambah_riwayat("Undo aksi terakhir")
