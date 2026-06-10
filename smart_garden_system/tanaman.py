@@ -165,11 +165,13 @@ def edit_tanaman():
         if kategori_baru not in ["Hias", "Buah", "Sayur"]:
             print("Kategori hanya boleh Hias, Buah, atau Sayur!")
             return
-        
+
+        kategori_lama = t.kategori
+
         t.umur = umur_baru
         t.tinggi = tinggi_baru
         t.kategori = kategori_baru
-        kategori_unik.discard(t.kategori)
+        kategori_unik.discard(kategori_lama)
         kategori_unik.add(kategori_baru)
         t.kebutuhan_air = kebutuhan_air_baru
 
