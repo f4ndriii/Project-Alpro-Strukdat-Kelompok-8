@@ -57,6 +57,39 @@ class LinkedList:
             print(current.data)
             current = current.next
 
+class DNode:
+    def __init__(self, data):
+        self.data = data
+        self.prev = None
+        self.next = None
+
+class DoubleLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def tambah(self, data):
+        node = DNode(data)
+
+        if self.head is None:
+            self.head = self.tail = node
+        else:
+            node.prev = self.tail
+            self.tail.next = node
+            self.tail = node
+
+    def tampil_maju(self):
+        current = self.head
+        while current:
+            print(current.data)
+            current = current.next
+
+    def tampil_mundur(self):
+        current = self.tail
+        while current:
+            print(current.data)
+            current = current.prev
+
 #Tree untuk mengelompokkan tanaman berdasarkan kategori
 class TreeNode:
     def __init__(self, data):
